@@ -8,6 +8,9 @@ export default class Todo extends BaseModel {
   @column()
   declare tarefa: string
 
+  @column()
+  declare concluida: boolean
+
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
 
