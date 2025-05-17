@@ -1,5 +1,6 @@
 import type { HttpContext } from '@adonisjs/core/http'
 import Todo from '#models/todo'
+import { createTodoValidator, updateTodoValidator } from '#validators/todo'
 
 export default class TodosController {
   public async index({}: HttpContext) {
@@ -11,15 +12,16 @@ export default class TodosController {
   }
 
   public async create({ request }: HttpContext) {
-    const todo = new Todo()
-    todo.tarefa = request.input('tarefa')
-    await todo.save()
-    return await todo.id
+    const payload = await request.validateUsing(createTodoValidator)
+    const todo = await Todo.create(payload)
+    return todo.id
   }
 
-  public async update({ params, request }: HttpContext) {
-    const tarefa = await Todo.findOrFail(params.id)
-    return await tarefa.merge(request.only(['tarefa'])).save()
+  public async update({ request, params }: HttpContext) {
+    const todo = await Todo.findOrFail(params.id)
+    const payload = await request.validateUsing(updateTodoValidator)
+    todo.tarefa = payload.tarefa
+    return todo.save()
   }
 
   public async updateConcluida({ params }: HttpContext) {
