@@ -15,3 +15,6 @@ router.post('/', '#controllers/todos_controller.create')
 router.put('/:id', '#controllers/todos_controller.update')
 router.patch('/:id', '#controllers/todos_controller.update')
 router.delete('/:id', '#controllers/todos_controller.delete')
+
+router.put('/:id/concluida', '#controllers/todos_controller.updateConcluida')
+router.patch('/:id/concluida', '#controllers/todos_controller.updateConcluida')
