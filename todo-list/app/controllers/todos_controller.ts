@@ -22,6 +22,12 @@ export default class TodosController {
     return await tarefa.merge(request.only(['tarefa'])).save()
   }
 
+  public async updateConcluida({ params }: HttpContext) {
+    const todo = await Todo.findOrFail(params.id)
+    todo.concluida = !todo.concluida
+    await todo.save()
+  }
+
   public async delete({ params }: HttpContext) {
     const todo = await Todo.findOrFail(params.id)
     return await todo.delete()
